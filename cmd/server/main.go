@@ -102,12 +102,13 @@ func main() {
 			// Probably it is because buffer reset retains underlying storage
 			var msgBuffer bytes.Buffer
 			var bodyBuffer bytes.Buffer
-			msgDecoder := gob.NewDecoder(&msgBuffer)
-			bodyDecoder := gob.NewDecoder(&bodyBuffer)
 
 			for msg := range msgs {
 				msgBuffer.Reset()
 				bodyBuffer.Reset()
+
+				msgDecoder := gob.NewDecoder(&msgBuffer)
+				bodyDecoder := gob.NewDecoder(&bodyBuffer)
 
 				if _, err := msgBuffer.Write(msg.Body); err != nil {
 					ErrorLogger.Print(err)
